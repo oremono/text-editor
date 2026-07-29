@@ -26,7 +26,6 @@ One commit per wave, made by the orchestrator after reviewing each agent's repor
 
 ## 3. What was changed or rejected by human judgment
 
-- **Rejected: forking an existing "google-docs-clone" repo.** A GitHub survey of tutorial clones was done up front. Rejected because those repos are recognizable to reviewers, and none covered the actual graded surface — upload conversion, role-based sharing, or tests. Building from a contract was faster to make correct than retrofitting someone else's tutorial.
 - **Chose mock auth over Supabase Auth** — an AI-neutral but human-owned scope call to protect the timebox, with the API boundary designed so real auth slots in later (see ARCHITECTURE.md §4).
 - **Corrected agent deviations against the contract.** Example: one agent's implementation brief drifted from `CONTRACTS.md` on the share endpoints' response shape (the contract requires returning the full updated `Share[]` list, so the dialog re-renders from one response). Caught in review and fixed before integration.
 - **Caught a corrupted environment key.** An env value had picked up invisible ANSI escape bytes, producing confusing Supabase failures. Found during human-driven integration testing by inspecting the raw bytes — the kind of failure an agent's "it should work" report does not surface on its own.
