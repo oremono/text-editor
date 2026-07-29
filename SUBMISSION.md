@@ -1,51 +1,43 @@
-# SUBMISSION.md
+# Collaborative Doc Editor — Rishabh Kohale
 
-Submission for the Ajaia LLC AI-Native Full Stack Developer assignment — a lightweight collaborative document editor. All five core requirements work end to end, plus one stretch item (role-based sharing).
+Submission for the AI-Native Full Stack Developer assignment: a lightweight collaborative document editor (Next.js + Tiptap + Supabase Postgres).
 
-**Candidate:** Rishabh Kohale (r.kohale9@gmail.com)
+- **Live app** → https://the-text-editor.vercel.app
+- **Code (zip)** → `<DRIVE LINK HERE>`
+- Repo is private — full source is in the zip.
 
-## Start here
+## Demo logins (email-only, no passwords)
 
-1. **Open the live app:** https://the-text-editor.vercel.app/ (deployed on Vercel, auto-deploys from `master`)
-2. **Log in** with a demo account (email-only login, no passwords): `alice@demo.com`, `bob@demo.com`, or `carol@demo.com`
-3. **To review sharing:** log in as Alice, share a document with `bob@demo.com` (Viewer or Editor), then log in as Bob in an incognito window.
+`alice@demo.com` · `bob@demo.com` · `carol@demo.com`
 
-## Contents of this Drive folder
+**30-second sharing test:** log in as alice → create a doc → share to `bob@demo.com` as viewer → open an incognito window, log in as bob → doc shows up under "Shared with me", read-only → back as alice, promote bob to editor → bob can now edit.
 
-Matching the assignment's Deliverables list:
+## What's in the zip
 
-| Deliverable | File / location |
-|---|---|
-| Source code | `text-editor-source.zip` (full repo; also on GitHub: `oremono/text-editor`) |
-| README with local setup and run instructions | `README.md` |
-| Architecture note | `ARCHITECTURE.md` |
-| AI workflow note | `AI-WORKFLOW.md` |
-| This index | `SUBMISSION.md` |
-| Live product URL | https://the-text-editor.vercel.app/ (also above) |
-| Walkthrough video URL | `video-url.txt` (unlisted Loom, 3–5 min) |
-| Screenshots | `screenshots/` (login, document list with role badges, editor + share dialog, viewer read-only mode) |
+- Full source
+- `README.md` — setup + run instructions
+- `ARCHITECTURE.md` — what I prioritized and why
+- `AI-WORKFLOW.md` — AI tools used, where they sped things up, what I rejected, how I verified
+- Migration SQL (schema + demo-user seed)
+- Tests: 39 Vitest unit/route tests + 6 Playwright E2E flows
+- CI workflow (lint + tests on push)
 
-## What works (all five core requirements, end to end)
+## What works end to end
 
-1. **Document creation and editing** — create, rename, edit, delete; rich text (bold, italic, underline, H1–H3, bullet and ordered lists) via Tiptap; debounced 1.5 s autosave with a save indicator; documents reopen with formatting intact.
-2. **File upload** — `.txt`, `.md`, or `.docx` (max 2 MB, stated in the UI and README) is converted server-side into a new editable document; invalid type/size/parse fails cleanly with no document created.
-3. **Sharing** — owner shares by email with **Viewer** or **Editor** role; "My documents" vs "Shared with me" sections with role badges; viewer is read-only in both the UI and the API; owner can change roles and revoke.
-4. **Persistence** — Tiptap JSON stored in Supabase Postgres (`jsonb`); documents, formatting, and shares survive refresh and re-login.
-5. **Quality** — live deployment, zod validation with consistent error responses, 39 Vitest unit/route tests (access-control matrix + CRUD), Playwright browser E2E suite (`e2e/`), setup docs, architecture and AI notes.
+- Create / rename / delete docs; rich text (bold, italic, underline, H1–H3, lists) with 1.5 s debounced autosave and a save indicator
+- Upload a `.txt`, `.md`, or `.docx` (max 2 MB) → becomes a new editable doc; bad files fail cleanly
+- Sharing: owner grants viewer or editor by email; "My documents" vs "Shared with me" with role badges; owner can change roles or revoke
+- Persistence: Tiptap JSON in Supabase Postgres — docs, formatting, and shares survive refresh and re-login
+- Deployed on Vercel, zod validation on every request body, 39 Vitest + 6 Playwright tests, CI
 
-**Stretch item completed:** role-based sharing permissions beyond basic access (the Viewer/Editor model above).
+Stretch item done: viewer/editor role-based sharing.
 
-## Partial / not built (honest accounting)
+## Honest scope
 
-- **Markdown export** — planned as a second stretch item, not built; listed in next steps.
-- **Auth is intentionally mocked** (seeded accounts, email-only login) as the assignment permits. This is a documented scope cut, not an accident — see `ARCHITECTURE.md` §4 for the boundary design and how real auth slots in.
-- Deliberately out of scope: real-time collaboration, comments, version history, folders/search, images in documents (`ARCHITECTURE.md` §6).
+- Auth is mocked on purpose (seeded accounts, email-only login) — the assignment allows it. All permission checks happen server-side in API routes, so real auth slots in behind one boundary.
+- No realtime collab — single-writer editing only.
+- Markdown export not built.
 
-## What I'd build next with another 2–4 hours
+**Next 2–4 hours:** real auth (Supabase Auth + RLS), realtime presence, version history.
 
-1. Real auth (Supabase Auth / magic links) swapped into the existing `requireUser` boundary, plus RLS as defense in depth
-2. Realtime presence indicators via Supabase Realtime
-3. Version history (snapshot the `jsonb` content into a `document_versions` table with restore)
-4. Import a file into an existing document, and Markdown export
-
-Details and rationale: `ARCHITECTURE.md` §7.
+That's it — happy to walk through any of it.
