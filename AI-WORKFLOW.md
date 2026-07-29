@@ -1,12 +1,14 @@
 # AI Workflow Note
 
-The assignment asks which AI tools were used, where they materially helped, what AI output was changed or rejected, and how correctness was verified. This note answers those directly and specifically.
+**In one line:** Claude Code (Fable 5) was the only AI tool, run as an orchestrator driving parallel sub-agents against human-frozen contracts — AI provided parallel throughput and mechanical breadth; a human made every scoping decision, owned the contracts, and verified every result before it counted.
 
-## Tools used
+The assignment asks four questions: which AI tools were used, where they materially helped, what AI output was changed or rejected, and how correctness was verified. Each section below answers one directly.
 
-**Claude Code (Fable 5)** was the only AI tool, but used in a specific way: not as a single chat assistant, but as an **orchestrator driving parallel sub-agents**. The main session did planning, delegation, contract enforcement, and commits; sub-agents did the file work in bounded slices.
+## 1. Tools used
 
-## The workflow: contract-first, parallel waves
+**Claude Code (Fable 5)** — the only AI tool, but used in a specific way: not as a single chat assistant, but as an **orchestrator driving parallel sub-agents**. The main session did planning, delegation, contract enforcement, and commits; sub-agents did the file work in bounded slices.
+
+**The workflow — contract-first, parallel waves:**
 
 1. **Planning first, code second.** The spec (`spec.md`) was written and human-reviewed before any application code: stack decisions with rationale, data model, permission matrix, API surface, scope cuts, and a time budget.
 2. **Wave 0 — freeze the contracts.** One agent built the `lib/` foundation (Supabase client, access-control helpers, API error handling, session utilities) and produced `CONTRACTS.md`: exact request/response shapes for all 10 API routes, shared TypeScript types, component props, and a hard file-ownership map.
@@ -16,20 +18,20 @@ The assignment asks which AI tools were used, where they materially helped, what
 
 One commit per wave, made by the orchestrator after reviewing each agent's report. Agents never committed.
 
-## Where AI materially sped things up
+## 2. Where AI materially sped things up
 
 - **Parallel feature construction.** The five Wave-1 slices were built concurrently — the single biggest time win, and only possible because the contracts were frozen first.
 - **Test authoring.** The 39-test Vitest suite (access-control matrix, route handlers with a mocked Supabase client, including the `server-only` import stub for the test environment) was largely agent-written and would have consumed a large fraction of the timebox by hand.
 - **Conversion pipeline research.** Evaluating and wiring `mammoth` (.docx → HTML) and `marked` (.md → HTML) into Tiptap's `generateJSON`, including Tiptap v3 API specifics, was compressed from research-plus-trial-and-error into minutes.
 
-## What was changed or rejected by human judgment
+## 3. What was changed or rejected by human judgment
 
 - **Rejected: forking an existing "google-docs-clone" repo.** A GitHub survey of tutorial clones was done up front. Rejected because those repos are recognizable to reviewers, and none covered the actual graded surface — upload conversion, role-based sharing, or tests. Building from a contract was faster to make correct than retrofitting someone else's tutorial.
 - **Chose mock auth over Supabase Auth** — an AI-neutral but human-owned scope call to protect the timebox, with the API boundary designed so real auth slots in later (see ARCHITECTURE.md §4).
 - **Corrected agent deviations against the contract.** Example: one agent's implementation brief drifted from `CONTRACTS.md` on the share endpoints' response shape (the contract requires returning the full updated `Share[]` list, so the dialog re-renders from one response). Caught in review and fixed before integration.
 - **Caught a corrupted environment key.** An env value had picked up invisible ANSI escape bytes, producing confusing Supabase failures. Found during human-driven integration testing by inspecting the raw bytes — the kind of failure an agent's "it should work" report does not surface on its own.
 
-## How correctness was verified
+## 4. How correctness was verified
 
 Four layers, each gated by human review:
 

@@ -1,7 +1,5 @@
 # Text Editor — Lightweight Collaborative Document Editor
 
-A Google-Docs-inspired document editor built as a take-home assignment for Ajaia LLC's AI-Native Full Stack Developer role. Users create and edit rich-text documents, upload files that become editable documents, and share documents with other users with viewer/editor roles.
-
 **Live app:** https://the-text-editor.vercel.app/
 
 **Demo accounts** (email-only login, no passwords):
@@ -12,7 +10,9 @@ A Google-Docs-inspired document editor built as a take-home assignment for Ajaia
 | `bob@demo.com` | Bob |
 | `carol@demo.com` | Carol |
 
-To try the sharing flow: log in as Alice in one window, share a document with `bob@demo.com`, then open an incognito window and log in as Bob.
+**To try the sharing flow:** log in as Alice in one window, share a document with `bob@demo.com`, then open an incognito window and log in as Bob.
+
+A Google-Docs-inspired document editor built as a take-home assignment for Ajaia LLC's AI-Native Full Stack Developer role. Users create and edit rich-text documents, upload files that become editable documents, and share documents with other users with viewer/editor roles.
 
 ## Features
 

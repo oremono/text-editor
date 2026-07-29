@@ -1,6 +1,6 @@
 # Architecture Note
 
-This document explains what was built, why the stack looks the way it does, and — most importantly — what was deliberately prioritized and cut within the 4–6 hour timebox.
+What was built, why the stack looks the way it does, and — most importantly — what was deliberately prioritized and cut within the 4–6 hour timebox.
 
 ## 1. Stack and rationale
 
@@ -15,7 +15,9 @@ This document explains what was built, why the stack looks the way it does, and 
 | Tests | Vitest (39 tests) + Playwright E2E (`e2e/`) | The permission logic is the most meaningful thing to test; E2E proves the flows in a real browser |
 | Deployment | Vercel (auto-deploys `master`) | Native Next.js path; reviewers get a live URL: https://the-text-editor.vercel.app/ |
 
-## 2. Data model (3 tables)
+## 2. Data model
+
+**Decision:** three tables, with document content stored as Tiptap JSON in a `jsonb` column.
 
 ```sql
 users            (id uuid PK, email unique, name, created_at)
@@ -33,6 +35,8 @@ Full schema + seed: `supabase/migrations/20260729000001_init.sql`.
 
 ## 3. Request flow
 
+**Decision:** the client never talks to Supabase. Every request funnels through Next.js API routes, and every document route uses the same two helpers (`requireUser`, `requireAccess`) — so there is exactly one place where identity and permissions are decided.
+
 ```
 Browser (React client components)
   |  apiFetch() — attaches x-user-id header from localStorage session
@@ -49,13 +53,13 @@ lib/ service layer (access.ts, convert.ts, supabase.ts)
 Supabase Postgres  (users / documents / document_shares)
 ```
 
-The client never talks to Supabase. Every document route funnels through the same two helpers (`requireUser`, `requireAccess`), so there is exactly one place where identity and permissions are decided.
-
 ## 4. Auth boundary — mock auth, by design
 
-Auth is intentionally mocked: login is email-only against seeded users; the client stores the user record in localStorage and sends `x-user-id` on every request; the server verifies that id exists on each call.
+**Decision:** auth is intentionally mocked, and as a direct consequence, all database access happens server-side with the service-role key, making the API route layer the single enforcement boundary.
 
-This is **not secure** — anyone who knows a user's UUID could impersonate them — and that is a documented, deliberate scope cut, explicitly permitted by the assignment ("seeded accounts, mocked auth"). The consequential design decision it forced:
+The mock: login is email-only against seeded users; the client stores the user record in localStorage and sends `x-user-id` on every request; the server verifies that id exists on each call.
+
+This is **not secure** — anyone who knows a user's UUID could impersonate them — and that is a documented, deliberate scope cut, explicitly permitted by the assignment ("seeded accounts, mocked auth"). The consequential design decisions it forced:
 
 - **Row Level Security was off the table.** RLS is only meaningful when the database can trust the caller's identity (a verified JWT). With mock identity, RLS would be security theater. So instead of client-side Supabase access, **all DB access happens server-side with the service-role key, and the API route layer is the single enforcement boundary.**
 - **Real auth slots in without restructuring.** Swapping in Supabase Auth (or any JWT provider) means replacing the body of `requireUser()` — header check becomes token verification — and the login page. Every route, the permission helpers, and the data model are unchanged. Optionally, RLS policies could then be layered on as defense in depth.
@@ -63,6 +67,8 @@ This is **not secure** — anyone who knows a user's UUID could impersonate them
 This was a conscious trade: spend the timebox on document, sharing, and upload logic that demonstrates product judgment, not on wiring an auth provider — while keeping the architecture honest about where real auth would live.
 
 ## 5. Permission model
+
+**Decision:** three roles (owner > editor > viewer), implemented by one helper and enforced at the API on every document route.
 
 | Action | Owner | Editor (shared) | Viewer (shared) | Anyone else |
 |---|---|---|---|---|

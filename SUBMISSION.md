@@ -1,14 +1,14 @@
 # SUBMISSION.md
 
-Submission for the Ajaia LLC AI-Native Full Stack Developer assignment — a lightweight collaborative document editor.
+Submission for the Ajaia LLC AI-Native Full Stack Developer assignment — a lightweight collaborative document editor. All five core requirements work end to end, plus one stretch item (role-based sharing).
 
 **Candidate:** Rishabh Kohale (r.kohale9@gmail.com)
 
-## Live product
+## Start here
 
-- **URL:** https://the-text-editor.vercel.app/ (deployed on Vercel, auto-deploys from `master`)
-- **Demo accounts** (email-only login, no passwords): `alice@demo.com`, `bob@demo.com`, `carol@demo.com`
-- **To review sharing:** log in as Alice, share a document with `bob@demo.com` (Viewer or Editor), then log in as Bob in an incognito window.
+1. **Open the live app:** https://the-text-editor.vercel.app/ (deployed on Vercel, auto-deploys from `master`)
+2. **Log in** with a demo account (email-only login, no passwords): `alice@demo.com`, `bob@demo.com`, or `carol@demo.com`
+3. **To review sharing:** log in as Alice, share a document with `bob@demo.com` (Viewer or Editor), then log in as Bob in an incognito window.
 
 ## Contents of this Drive folder
 
