@@ -188,7 +188,20 @@ Cut line if running late: stretch (§9) goes first, then `.docx` support (keep .
 
 ---
 
-## 12. Deliberate scope cuts (to state in architecture note)
+## 12. Execution strategy (multi-agent)
+
+Orchestrator (main session) plans, delegates, and commits — sub-agents do all file work.
+Contract-first: Wave 0 fixes shared types/helpers/API contracts in `CONTRACTS.md`; later agents
+own disjoint files and integrate against contracts, never against each other's code.
+
+- **Wave 0 (1 agent):** deps, shadcn, `lib/` foundation (`supabase.ts`, `types.ts`, `api-helpers.ts`, `access.ts`), `CONTRACTS.md`, build must pass.
+- **Wave 1 (5 agents, parallel):** A auth+docs API+list page · B editor page/components · C sharing API+dialog · D upload API+conversion+button · E Vitest tests against `lib/` contracts.
+- **Wave 2 (1 agent):** integration (wire ShareDialog/UploadButton mount points), run app, fix cross-boundary mismatches.
+- **Wave 3 (parallel):** Vercel deploy · README/architecture/AI-note writers · live smoke test.
+
+Commit policy: one commit per wave, made by the orchestrator; agents never commit.
+
+## 13. Deliberate scope cuts (to state in architecture note)
 
 - No real auth/security — mock identity via localStorage + header; API boundary designed so real auth slots in later
 - No real-time collaboration (single-writer, last-write-wins autosave)
