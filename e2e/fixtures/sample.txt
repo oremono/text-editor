@@ -1,0 +1,2 @@
+Hello from the uploaded fixture file.
+This is the second line of the sample document.
