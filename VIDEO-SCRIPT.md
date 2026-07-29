@@ -59,7 +59,7 @@ Target ~4 minutes. Speak the **Say** lines; do the **Do** actions while speaking
 **Do:**
 - Face the camera (or stay on the app); no clicking needed.
 
-**Say:** Last bit — how I used AI. It was all Claude Code. I wrote the spec and locked down the API contracts first, then had a bunch of sub-agents build the features and tests in parallel against those contracts — that was the big time saver. But I said no to forking tutorial clones, fixed an agent that drifted off the share-endpoint contract, and caught a broken env key the agents missed. I checked everything with Vitest, Playwright, curl against the live site, and a manual pass — it's all in AI-WORKFLOW.md. So that's it: a deployed full-stack docs app — Next.js, Supabase Postgres, Tiptap, 45 automated tests — front to back, all shown live. Thanks for watching.
+**Say:** Last bit — how I used AI. It was all Claude Code. I wrote the spec and locked down the API contracts first, then had a bunch of sub-agents build the features and tests in parallel against those contracts — that was the big time saver. But I also fixed an agent that drifted off the share-endpoint contract, and caught a broken env key the agents missed. I checked everything with Vitest, Playwright, curl against the live site, and a manual pass — it's all in AI-WORKFLOW.md. So that's it: a deployed full-stack docs app — Next.js, Supabase Postgres, Tiptap, 45 automated tests — front to back, all shown live. Thanks for watching.
 
 ---
 
