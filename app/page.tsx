@@ -23,6 +23,8 @@ export default function HomePage() {
       router.replace("/login");
       return;
     }
+    // Session lives in localStorage, so it can only be read post-mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUser(sessionUser);
   }, [router]);
 
@@ -37,6 +39,8 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    // loadDocs only sets state after the fetch resolves (not synchronously).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (user) void loadDocs();
   }, [user, loadDocs]);
 

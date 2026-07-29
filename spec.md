@@ -203,6 +203,11 @@ own disjoint files and integrate against contracts, never against each other's c
 
 Commit policy: one commit per wave, made by the orchestrator; agents never commit.
 
+Deploy facts: Vercel project `text-editor` (org `oremonos-projects`), GitHub repo `oremono/text-editor`,
+production branch `master`, live URL **https://the-text-editor.vercel.app/**. Env vars are set on Vercel
+(Production + Preview). `git push` only works from the user's own terminal — the orchestrator asks the
+user to push whenever a deploy is needed.
+
 ## 13. Deliberate scope cuts (to state in architecture note)
 
 - No real auth/security — mock identity via localStorage + header; API boundary designed so real auth slots in later

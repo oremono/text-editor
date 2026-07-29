@@ -110,6 +110,9 @@ function DocumentEditor({ doc }: { doc: DocumentFull }) {
         const message = err instanceof Error ? err.message : "Failed to save";
         toast.error(message, {
           description: "Your latest changes are not saved yet.",
+          // Self-reference is safe: onClick only fires after this render
+          // commits, and runSave is stable for the life of the page (doc.id).
+          // eslint-disable-next-line react-hooks/immutability
           action: { label: "Retry", onClick: () => void runSave(editor) },
         });
       }

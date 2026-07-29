@@ -163,7 +163,7 @@ class FakeQueryBuilder implements PromiseLike<FakeResult> {
       return this.materialize(matched);
     }
 
-    let out = [...matched];
+    const out = [...matched];
     if (this.ordering) {
       const { column, ascending } = this.ordering;
       out.sort((a, b) => {

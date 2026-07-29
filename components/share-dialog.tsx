@@ -48,6 +48,8 @@ export function ShareDialog({
   React.useEffect(() => {
     if (!open) return;
     let cancelled = false;
+    // Fetch-on-open: flip the loading flag before kicking off the request.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     apiFetch<Share[]>(`/api/documents/${docId}/shares`)
       .then((list) => {
