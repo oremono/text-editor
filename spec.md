@@ -185,6 +185,8 @@ Cut line if running late: stretch (§9) goes first, then `.docx` support (keep .
 - [ ] Text file with walkthrough video URL (3–5 min, Loom/YouTube)
 - [ ] Screenshots / demo GIF
 - [ ] Demo credentials for sharing flow (alice/bob/carol emails)
+- [ ] `VIDEO-SCRIPT.md` — timed 3–5 min Loom script covering: main user flow, what works end to end, deprioritized items, key implementation decisions, AI workflow (generated in Wave 3)
+- [ ] `YOUR-CHECKLIST.md` — manual steps only the candidate can do: record Loom, create Drive folder + upload code/docs, put video URL in a text file, verify live URL works logged out, revoke shared Supabase access token (generated in Wave 3)
 
 ---
 
